@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
-using System;
+using TagLib;
 
 namespace FolderManager
 {
@@ -67,9 +67,11 @@ namespace FolderManager
 
         private int RecursiveTraversal(string path, int fileIndex)
         {
+            //System.Threading.Thread.Sleep(5000);
             int step = 0;
-            var childDirs = Directory.GetDirectories(path);
-            childDirs = childDirs.OrderBy(d => d, comparer).ToArray();
+           
+            var childDirs = SortedSubDirectories(path);
+
             if (childDirs.Length == 0)
             {
                 var files = Directory.GetFiles(path);
@@ -79,9 +81,12 @@ namespace FolderManager
                 {
                     maxIndex = fileIndex + index++;
                     var destination = Directory.GetParent(path).FullName + "\\" + maxIndex + Path.GetExtension(file);
-                    if (!File.Exists(destination))
+                    if (!System.IO.File.Exists(destination))
                     {
-                        File.Move(file, destination);
+                        System.IO.File.Move(file, destination);
+                        TagLib.File tFile = TagLib.File.Create(destination);
+                        tFile.Tag.Title = "";
+                        tFile.Save();
                     }
                 }
                 if (Directory.GetFiles(path).Length == 0)
@@ -119,6 +124,13 @@ namespace FolderManager
                 return xresult - yresult;
 
             }
+        }
+
+        public string[] SortedSubDirectories(string path)
+        {
+            var childDirs = Directory.GetDirectories(path);
+            childDirs = childDirs.OrderBy(d => d, comparer).ToArray();
+            return childDirs;
         }
     }
 }
