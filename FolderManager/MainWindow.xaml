@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FolderManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" WindowStartupLocation="CenterScreen" Opacity="0.9" WindowStyle="ToolWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True">
+        Title="MainWindow" Height="350" Width="525" WindowStartupLocation="CenterScreen" Opacity="0.9" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True">
     <Window.Effect>
         <DropShadowEffect ShadowDepth="6"/>
     </Window.Effect>
