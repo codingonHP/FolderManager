@@ -26,6 +26,8 @@ namespace FolderManager
         private void btnBrowse_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog openFileDialog = new FolderBrowserDialog();
+            openFileDialog.SelectedPath = System.Windows.Forms.Application.StartupPath;
+
             var openFolderBrowserDialogResult = openFileDialog.ShowDialog();
             if (openFolderBrowserDialogResult == System.Windows.Forms.DialogResult.OK)
             {
@@ -107,6 +109,12 @@ namespace FolderManager
             if (childDirs.Length == 0)
             {
                 var files = Directory.GetFiles(path);
+
+                if (files.Length > 1)
+                {
+                    return -999;
+                }
+
                 int index = 0;
                 int maxIndex = 0;
                 foreach (var file in files)
@@ -138,7 +146,11 @@ namespace FolderManager
                 foreach (var dir in childDirs)
                 {
                     var maxIndex = RecursiveTraversal(dir,step);
-                   
+                    if (maxIndex == -999)
+                    {
+                        break;
+                    }
+
                     step = maxIndex;
                 }
             }
